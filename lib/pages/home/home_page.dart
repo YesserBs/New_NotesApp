@@ -4,11 +4,14 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../services/database_controller.dart';
 import '../details/details_page.dart';
 import 'home_controller.dart';
 
 class HomePage extends StatelessWidget {
   HomeController HC = Get.find();
+  DatabaseController database = Get.find();
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +39,9 @@ class HomePage extends StatelessWidget {
                     SizedBox(height: 30),
                     Expanded(
                       child: Container(
-                        child: ListView.builder(
+                        child: Obx(() => ListView.builder(
                           shrinkWrap: true,
-                          itemCount: 10,
+                          itemCount: database.Data.value.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
@@ -93,7 +96,7 @@ class HomePage extends StatelessWidget {
                               ),
                             );
                           },
-                        ),
+                        )),
                       ),
                     )
                   ],
@@ -140,7 +143,7 @@ class HomePage extends StatelessWidget {
 Widget _SearchFormField() {
   //DatabaseController dbController = Get.find();
   return Container(
-    height: 36.0,
+    height: 38.0,
     margin: EdgeInsets.all(20.0),
     decoration: BoxDecoration(
       color: Colors.white,
@@ -162,7 +165,7 @@ Widget _SearchFormField() {
           CupertinoIcons.search,
           color: Colors.grey,
         ),
-        contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
+        contentPadding: EdgeInsets.symmetric(vertical: 3.0, horizontal: 16.0),
       ),
       style: TextStyle(color: Colors.grey),
     ),
