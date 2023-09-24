@@ -18,14 +18,13 @@ class DatabaseController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     await initializeDatabase();
-    await fetchDataAndAssign();
+    await fetchData();
   }
 
   void getSearchText(String value) {
     searchedText = value;
     filterTitles(value);
   }
-
 
   void filterTitles(String value) {
     if (value.isEmpty) {
@@ -38,6 +37,7 @@ class DatabaseController extends GetxController {
     print("Here the filtred titles and DATA $filtredData $filtredData");
   }
 
+  // This is a default function that sets the db
   Future<void> initializeDatabase() async {
     String databasePath = await getDatabasesPath();
     String path = join(databasePath, 'my_database.db');
@@ -55,25 +55,17 @@ class DatabaseController extends GetxController {
       },
     );
   }
-/*
-  Future<void> insertInDb(Map<String, dynamic> dataMap) async {
-    final db = await database;
-    await db.insert('data', dataMap);
-  }*/
 
-  Future<void> fetchDataAndAssign() async {
+  // This function fetches data when the app starts running
+  Future<void> fetchData() async {
     final db = await database;
     Data.assignAll(await db.query('data'));
     print("Assaigning here ${Data.value}");
     update();
   }
 
-  Future<void> emptyTable() async {
-    final db = await database;
-    await db.delete('data');
-    update();
-  }
-
+  /* This function simply saves the data in the db, the data stored in Data
+  will be stored in db */
   Future<void> save() async {
     final db = await database;
     await db.delete('data');
@@ -83,11 +75,17 @@ class DatabaseController extends GetxController {
     }
   }
 
-
+  // This function changes the Data list
   void addSampleData() {
     Data.add(Sample);
     update();
   }
 
-
+  /* This function empties the table so it's rarely needed and be carfull of
+  losing important data when using it*/
+  Future<void> emptyTable() async {
+    final db = await database;
+    await db.delete('data');
+    update();
+  }
 }

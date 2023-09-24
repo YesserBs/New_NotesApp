@@ -19,7 +19,7 @@ class DetailsPage extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Obx(() => Text(database.Data.value.toString().length.toString())),
+                    Obx(() => Text(database.Data.value.length.toString())),
                     Row(
                       children: [
                         TextButton(
